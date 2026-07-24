@@ -12,9 +12,9 @@ const AREngine = (function() {
   let lastFrameTime = performance.now();
 
   const targets = {
-    toaster_target: { id: 'toaster_target', name: '烤麵包機 (Toaster)', x: 0.3, y: 0.5, size: 120, detected: false, color: '#00e5ff' },
-    patty_grill_target: { id: 'patty_grill_target', name: '肉餅煎台 (Patty Grill)', x: 0.5, y: 0.5, size: 120, detected: false, color: '#ff3366' },
-    beverage_target: { id: 'beverage_target', name: '萃茶/咖啡機 (Beverage)', x: 0.7, y: 0.5, size: 120, detected: false, color: '#7c4dff' }
+    toaster_target: { id: 'toaster_target', name: '烤麵包機 (Toaster)', x: 0.3, y: 0.5, size: 120, detected: false, gazeTimer: 0, gazeProgress: 0, isGazeLocked: false, color: '#00e5ff' },
+    patty_grill_target: { id: 'patty_grill_target', name: '肉餅煎台 (Patty Grill)', x: 0.5, y: 0.5, size: 120, detected: false, gazeTimer: 0, gazeProgress: 0, isGazeLocked: false, color: '#ff3366' },
+    beverage_target: { id: 'beverage_target', name: '萃茶/咖啡機 (Beverage)', x: 0.7, y: 0.5, size: 120, detected: false, gazeTimer: 0, gazeProgress: 0, isGazeLocked: false, color: '#7c4dff' }
   };
 
   const reticle = { x: 0.5, y: 0.5, isPinched: false };
@@ -93,6 +93,17 @@ const AREngine = (function() {
       const ty = target.y * canvas.height;
       const dist = Math.hypot(reticlePxX - tx, reticlePxY - ty);
       target.detected = dist < (target.size / 2 + 20);
+
+      // Gaze Dwell Lock Accumulator (0.3s Dwell Time)
+      if (target.detected) {
+        target.gazeTimer += dt;
+        target.gazeProgress = Math.min(1.0, target.gazeTimer / 0.3);
+        target.isGazeLocked = target.gazeProgress >= 1.0;
+      } else {
+        target.gazeTimer = 0;
+        target.gazeProgress = 0;
+        target.isGazeLocked = false;
+      }
     });
 
     // Update active spatial timers using real delta time
@@ -115,21 +126,36 @@ const AREngine = (function() {
       const ty = target.y * canvas.height;
 
       ctx.save();
-      ctx.strokeStyle = target.detected ? '#00e676' : target.color;
-      ctx.lineWidth = target.detected ? 4 : 2;
+      ctx.strokeStyle = target.isGazeLocked ? '#00e676' : (target.detected ? '#ffd600' : target.color);
+      ctx.lineWidth = target.isGazeLocked ? 4 : (target.detected ? 3 : 2);
       if (!target.detected && ctx.setLineDash) ctx.setLineDash([6, 4]);
 
       ctx.strokeRect(tx - target.size/2, ty - target.size/2, target.size, target.size);
 
-      ctx.fillStyle = target.detected ? '#00e676' : target.color;
-      ctx.font = '600 12px Outfit, sans-serif';
+      // Draw Gaze Progress Ring around Target when Hovering
+      if (target.detected && !target.isGazeLocked) {
+        ctx.beginPath();
+        ctx.arc(tx, ty, target.size/2 + 10, -Math.PI/2, -Math.PI/2 + (Math.PI * 2 * target.gazeProgress));
+        ctx.strokeStyle = '#ffd600';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+      }
+
+      // Draw Header Badge Text
+      ctx.fillStyle = target.isGazeLocked ? '#00e676' : (target.detected ? '#ffd600' : target.color);
+      ctx.font = '600 13px Outfit, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(target.name, tx, ty - target.size/2 - 10);
+      
+      const badgeText = target.isGazeLocked 
+        ? `👌 已鎖定 - 請發出 Pinch 手勢`
+        : (target.detected ? `👀 注視中 (${Math.floor(target.gazeProgress*100)}%)` : target.name);
+      
+      ctx.fillText(badgeText, tx, ty - target.size/2 - 12);
       ctx.restore();
 
       const spatialTimer = activeSpatialTimers.find(t => t.targetId === target.id);
       if (spatialTimer) {
-        drawSpatialTimerOverlay(tx, ty - target.size/2 - 40, spatialTimer);
+        drawSpatialTimerOverlay(tx, ty - target.size/2 - 45, spatialTimer);
       }
     });
 
@@ -212,9 +238,15 @@ const AREngine = (function() {
   }
 
   function triggerPinchAction() {
-    const detectedTarget = Object.values(targets).find(t => t.detected);
-    if (detectedTarget && window.EventBus) {
-      window.EventBus.emit('GESTURE_TARGET_PINCHED', detectedTarget.id);
+    const lockedTarget = Object.values(targets).find(t => t.isGazeLocked);
+    const hoveringTarget = Object.values(targets).find(t => t.detected);
+
+    if (lockedTarget && window.EventBus) {
+      window.EventBus.emit('GESTURE_TARGET_PINCHED', lockedTarget.id);
+    } else if (hoveringTarget && window.EventBus) {
+      window.EventBus.emit('GESTURE_MISFIRE_WARNING', `⚠️ 請持續注視「${hoveringTarget.name.split(' ')[0]}」至綠色鎖定標籤出現再發出 Pinch 手勢`);
+    } else if (window.EventBus) {
+      window.EventBus.emit('GESTURE_MISFIRE_WARNING', '⚠️ 請先將中央視線注視待計時設備標籤，待鎖定後再執行 Pinch 手勢');
     }
   }
 

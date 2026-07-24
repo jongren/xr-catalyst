@@ -310,3 +310,36 @@
   background: var(--primary-glow);
   border-color: #fff;
 }
+
+/* Toast Warning Banner for Misfire / Gaze Hint */
+.hud-toast-warning {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99;
+  background: rgba(255, 51, 102, 0.95);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 0 25px rgba(255, 51, 102, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  animation: toast-fade-in 0.3s ease, toast-shake 0.3s ease;
+}
+
+@keyframes toast-fade-in {
+  from { opacity: 0; transform: translate(-50%, -20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes toast-shake {
+  0%, 100% { transform: translate(-50%, 0); }
+  25% { transform: translate(-54%, 0); }
+  75% { transform: translate(-46%, 0); }
+}

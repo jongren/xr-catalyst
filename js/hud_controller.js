@@ -94,6 +94,10 @@ const HUDController = (function() {
     window.EventBus.on('GESTURE_TARGET_PINCHED', function(targetId) {
       handleGestureTrigger(targetId);
     });
+
+    window.EventBus.on('GESTURE_MISFIRE_WARNING', function(msg) {
+      showWarningToast(msg);
+    });
   }
 
   function startSlaCountdown() {
@@ -494,12 +498,34 @@ const HUDController = (function() {
   function playTimerStartSound() { playBeep(587.33, 0.2); }
   function playSuccessBeep() { playBeep(1046.5, 0.4); }
 
+  function showWarningToast(msg) {
+    const container = document.getElementById('hud-view-panel');
+    if (!container) return;
+
+    let toast = container.querySelector('.hud-toast-warning');
+    if (toast) toast.remove();
+
+    toast = document.createElement('div');
+    toast.className = 'hud-toast-warning';
+    toast.innerHTML = `<span>${msg}</span>`;
+    container.appendChild(toast);
+
+    playBeep(300, 0.25);
+
+    setTimeout(function() {
+      if (toast && toast.parentElement) {
+        toast.remove();
+      }
+    }, 2500);
+  }
+
   return {
     init: init,
     setMode: setMode,
     advanceSOPStep: advanceSOPStep,
     triggerStepTimer: triggerStepTimer,
-    syncOrderFromDB: syncOrderFromDB
+    syncOrderFromDB: syncOrderFromDB,
+    showWarningToast: showWarningToast
   };
 })();
 
