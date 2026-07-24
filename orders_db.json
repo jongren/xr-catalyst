@@ -1,0 +1,79 @@
+{
+  "activeOrders": [],
+  "completedOrders": [
+    {
+      "orderId": "ORD-#101",
+      "createdAt": "2026-07-22T03:57:35.796Z",
+      "createdAtFormatted": "上午11:57:35",
+      "status": "completed",
+      "items": [
+        {
+          "itemId": "item_burger_classic",
+          "name": "經典雙層牛肉堡",
+          "icon": "🍔",
+          "customizations": [
+            {
+              "id": "no_lettuce",
+              "name": "去生菜 (No Lettuce)",
+              "type": "remove"
+            }
+          ],
+          "sop": [
+            {
+              "stepId": 1,
+              "title": "準備食材與漢堡麵包",
+              "type": "prep",
+              "detail": "取雙層麵包與起司"
+            },
+            {
+              "stepId": 2,
+              "title": "煎台肉餅烹調",
+              "type": "timer",
+              "duration": 45,
+              "targetId": "patty_grill_target",
+              "detail": "至Patty標籤，手勢啟動45s計時"
+            },
+            {
+              "stepId": 3,
+              "title": "客製化組裝醬料與生菜",
+              "type": "custom_check",
+              "detail": "核對客製化需求（去生菜/去醬）"
+            },
+            {
+              "stepId": 4,
+              "title": "包裝與出餐交付",
+              "type": "deliver",
+              "detail": "擺盤送至出餐台"
+            }
+          ],
+          "currentStepIndex": 4,
+          "slaSeconds": 120,
+          "stepTimestamps": [
+            {
+              "stepId": 1,
+              "title": "準備食材與漢堡麵包",
+              "timestamp": "上午11:57:59"
+            },
+            {
+              "stepId": 2,
+              "title": "煎台肉餅烹調",
+              "timestamp": "上午11:58:49"
+            },
+            {
+              "stepId": 3,
+              "title": "客製化組裝醬料與生菜",
+              "timestamp": "上午11:58:57"
+            },
+            {
+              "stepId": 4,
+              "title": "包裝與出餐交付",
+              "timestamp": "上午11:59:02"
+            }
+          ]
+        }
+      ],
+      "activeItemIndex": 0,
+      "completedAt": "上午11:59:02"
+    }
+  ]
+}

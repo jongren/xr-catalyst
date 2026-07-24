@@ -1,0 +1,320 @@
+/* ==========================================================================
+   XR Catalyst - Main Design System & Theme
+   Modern Dark Glassmorphism, Responsive & Vibrant Visual Tokens
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  /* Color Palette - Vibrant Dark Theme */
+  --bg-dark: #0b0f19;
+  --bg-card: rgba(18, 26, 44, 0.75);
+  --bg-card-hover: rgba(28, 40, 68, 0.85);
+  --bg-glass: rgba(255, 255, 255, 0.05);
+  --border-glass: rgba(255, 255, 255, 0.12);
+  --border-glow: rgba(0, 229, 255, 0.3);
+
+  /* Brand Accents */
+  --primary: #00e5ff;
+  --primary-glow: rgba(0, 229, 255, 0.4);
+  --secondary: #7c4dff;
+  --secondary-glow: rgba(124, 77, 255, 0.4);
+  --accent-gold: #ffd700;
+
+  /* Alert Colors */
+  --color-danger: #ff3366;
+  --color-danger-bg: rgba(255, 51, 102, 0.15);
+  --color-warning: #ff9900;
+  --color-warning-bg: rgba(255, 153, 0, 0.15);
+  --color-success: #00e676;
+  --color-success-bg: rgba(0, 230, 118, 0.15);
+  --color-info: #29b6f6;
+
+  /* Typography */
+  --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Text Colors */
+  --text-main: #f0f4f8;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  /* Shadows & Effects */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 25px rgba(0, 229, 255, 0.25);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* Animations */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset & Global Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-mono), var(--font-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Layout Root Container */
+#app-root {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: radial-gradient(circle at 50% 10%, #151d33 0%, var(--bg-dark) 80%);
+}
+
+/* Header Navigation Bar */
+.top-navbar {
+  height: 60px;
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-glass);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.brand-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-badge {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+  -webkit-text-fill-color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-glass);
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition-fast);
+}
+
+.nav-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-btn.active {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.2) 0%, rgba(124, 77, 255, 0.2) 100%);
+  color: var(--primary);
+  border: 1px solid var(--primary-glow);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+}
+
+/* Dedicated AR Glasses HUD Mode - ABSOLUTE HIDE NAV TABS */
+html.hud-dedicated-mode .nav-tabs,
+body.hud-dedicated-mode .nav-tabs,
+.hud-dedicated-mode .nav-tabs,
+.hud-dedicated-mode .top-navbar .nav-tabs {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.hud-dedicated-badge {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid var(--primary-glow);
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+html.hud-dedicated-mode .hud-dedicated-badge,
+body.hud-dedicated-mode .hud-dedicated-badge,
+.hud-dedicated-mode .hud-dedicated-badge {
+  display: flex !important;
+}
+
+/* System Status Bar */
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  box-shadow: 0 0 8px var(--color-success);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* Main Viewport Container */
+.view-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.view-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none !important;
+}
+
+.view-panel.active {
+  display: flex !important;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Utility Glassmorphism Classes */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.glass-panel-glow {
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, #00b0ff 100%);
+  color: #000;
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  border: 1px solid var(--border-glass);
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
+}

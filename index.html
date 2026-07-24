@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XR 催化者計劃 - Xreal AR 智慧餐飲廚房與出餐管理助理</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/pos.css">
+  <link rel="stylesheet" href="css/hud.css">
+</head>
+<body>
+
+  <div id="app-root">
+    
+    <!-- Top Navigation & System Status Header -->
+    <header class="top-navbar">
+      <div class="brand-title">
+        <span>🕶️ XR Catalyst</span>
+        <span class="brand-badge">Xreal Aura / Air 2 Ultra</span>
+      </div>
+
+      <!-- Navigation Tabs (Hidden in Dedicated HUD Mode) -->
+      <nav class="nav-tabs">
+        <button id="tab-pos" class="nav-btn active">
+          <span>🛒 前台 POS 點餐與實習考核看板</span>
+        </button>
+        <button id="tab-hud" class="nav-btn">
+          <span>🥽 Xreal AR 眼鏡出餐 HUD 視界</span>
+        </button>
+      </nav>
+
+      <!-- Dedicated HUD Mode Badge (Shown in Dedicated HUD Mode) -->
+      <div class="hud-dedicated-badge">
+        <span>👓 Xreal AR 專屬頭戴視野 (Dedicated HUD Mode)</span>
+      </div>
+
+      <div class="system-status">
+        <div class="status-pill">
+          <div class="status-dot"></div>
+          <span>WebXR & Target Tracking Ready</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Viewport Area -->
+    <main class="view-container">
+
+      <!-- View Panel 1: POS Frontend & Kitchen Audit Dashboard -->
+      <section id="pos-view-panel" class="view-panel active">
+        <div class="pos-layout">
+          
+          <!-- Column 1: POS Menu & Category Grid -->
+          <div class="glass-panel" style="padding: 16px; display: flex; flex-direction: column; overflow: hidden;">
+            <div class="panel-header">
+              <span class="panel-title">🍔 經典菜單點餐系統</span>
+              <span style="font-size:0.8rem; color:var(--text-muted);">選擇餐點與特殊客製需求</span>
+            </div>
+
+            <!-- Category Chips -->
+            <div class="category-bar">
+              <button class="cat-chip active" data-cat="all">全部品項 (All)</button>
+              <button class="cat-chip" data-cat="burgers">牛肉堡類</button>
+              <button class="cat-chip" data-cat="toast">現烤吐司</button>
+              <button class="cat-chip" data-cat="beverages">特調飲品</button>
+            </div>
+
+            <!-- Dynamic Menu Grid -->
+            <div id="menu-grid-container" class="menu-grid">
+              <!-- Rendered via js/pos.js -->
+            </div>
+          </div>
+
+          <!-- Column 2: Order Cart & Customization Summary -->
+          <div class="glass-panel cart-panel">
+            <div class="panel-header">
+              <span class="panel-title">🛍️ 當前點餐清單 (Cart)</span>
+              <button id="btn-clear-cart" class="btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;">清空</button>
+            </div>
+
+            <div id="cart-items-container" class="cart-items-list">
+              <!-- Rendered via js/pos.js -->
+            </div>
+
+            <div class="cart-footer">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-weight: 600; color: var(--text-muted);">訂單總金額:</span>
+                <span id="cart-total-price" style="font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; color: var(--accent-gold);">NT$ 0</span>
+              </div>
+              <button id="btn-send-order" class="btn-primary" style="width: 100%; height: 44px; font-size: 0.95rem;" disabled>
+                🚀 送出訂單至 AR 眼鏡 (Dispatch Order)
+              </button>
+            </div>
+          </div>
+
+          <!-- Column 3: Live Kitchen Audit Dashboard & AR Target Markers -->
+          <div class="glass-panel audit-panel">
+            <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                <span class="panel-title">📊 實習培訓 & 考核看板</span>
+              </div>
+
+              <!-- Audit Section Filter Tabs -->
+              <div class="audit-tab-bar">
+                <button class="audit-tab-btn active" data-tab="all">全覽紀錄</button>
+                <button class="audit-tab-btn" data-tab="active">⏱️ 進行中 (<span id="count-active-orders">0</span>)</button>
+                <button class="audit-tab-btn" data-tab="done">✅ 已交付 (<span id="count-done-orders">0</span>)</button>
+              </div>
+            </div>
+
+            <!-- Unified Scrollable Audit Body -->
+            <div id="audit-body-container" class="audit-body">
+              <!-- Rendered via js/pos.js -->
+            </div>
+
+            <!-- On-Screen Equipment AR Target Markers -->
+            <div class="marker-widget">
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 4px;">
+                🎯 平板畫面待追蹤影像 (On-Screen Targets)
+              </div>
+              <div style="display: flex; gap: 6px; justify-content: center;">
+                <canvas id="canvas-toaster-marker" class="marker-canvas" title="Toaster Target"></canvas>
+                <canvas id="canvas-grill-marker" class="marker-canvas" title="Grill Target"></canvas>
+                <canvas id="canvas-beverage-marker" class="marker-canvas" title="Beverage Target"></canvas>
+              </div>
+              <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">
+                使用眼鏡相機聚焦此區域進行追蹤
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- View Panel 2: Xreal AR Glasses HUD Viewport -->
+      <section id="hud-view-panel" class="view-panel">
+        <div class="hud-viewport">
+          
+          <!-- AR Spatial Canvas Layer for Camera Simulation & Floating Timers -->
+          <canvas id="ar-canvas" class="ar-canvas-layer"></canvas>
+
+          <!-- FOV Reticle Overlay Frame -->
+          <div class="fov-frame-overlay">
+            <div class="fov-corner top-left"></div>
+            <div class="fov-corner top-right"></div>
+            <div class="fov-corner bottom-left"></div>
+            <div class="fov-corner bottom-right"></div>
+          </div>
+
+          <!-- Fixed Head-Locked / Smooth Follow HUD Panel -->
+          <div class="hud-head-panel">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">
+                👓 Xreal AR 視野導引 (Head-Locked HUD)
+              </span>
+
+              <!-- Mode Switcher -->
+              <div class="hud-mode-selector">
+                <button id="btn-mode-training" class="hud-mode-btn active">🎓 培訓考核模式</button>
+                <button id="btn-mode-compact" class="hud-mode-btn">⚡ 簡易出餐模式</button>
+              </div>
+            </div>
+
+            <!-- Dynamic HUD Task & SOP Content -->
+            <div id="hud-dynamic-content">
+              <!-- Rendered via js/hud_controller.js -->
+            </div>
+
+            <div style="font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid var(--border-glass); padding-top: 10px; display: flex; align-items: center; justify-content: space-between;">
+              <span>🎯 操控提示：移動滑鼠模擬視線注視</span>
+              <span>👌 點擊滑鼠模擬 Pinch 手勢</span>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Customization Modal Backdrop -->
+  <div id="custom-modal-backdrop" class="custom-modal-backdrop">
+    <div class="custom-modal">
+      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-glass); padding-bottom: 12px;">
+        <h3 id="modal-item-title" style="font-size: 1.1rem; color: var(--text-main);">客製化需求</h3>
+        <button id="btn-modal-close" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+      
+      <div id="modal-options-list" class="custom-options-group">
+        <!-- Rendered via js/pos.js -->
+      </div>
+
+      <button class="btn-primary" style="width: 100%; margin-top: 12px;" onclick="document.getElementById('custom-modal-backdrop').classList.remove('active')">
+        完成客製化設定 (Confirm)
+      </button>
+    </div>
+  </div>
+
+  <!-- JavaScript Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/pos.js"></script>
+  <script src="js/ar_engine.js"></script>
+  <script src="js/hud_controller.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
