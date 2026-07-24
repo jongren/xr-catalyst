@@ -1,0 +1,1 @@
+# XR Catalyst - Standard Python Library Dependencies (No external packages required)
