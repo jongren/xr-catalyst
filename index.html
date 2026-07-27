@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>XR 催化者計劃 - Xreal AR 智慧餐飲廚房與出餐管理助理</title>
   
   <!-- CSS Stylesheets -->
@@ -49,10 +49,18 @@
 
       <!-- View Panel 1: POS Frontend & Kitchen Audit Dashboard -->
       <section id="pos-view-panel" class="view-panel active">
+        
+        <!-- Mobile/Tablet Sub-Navigation Bar (Shown below 991px) -->
+        <div class="pos-mobile-nav">
+          <button class="pos-mobile-tab active" data-target="pos-col-menu">🍔 點餐菜單</button>
+          <button class="pos-mobile-tab" data-target="pos-col-cart">🛍️ 購物車 (<span id="mobile-cart-badge">0</span>)</button>
+          <button class="pos-mobile-tab" data-target="pos-col-audit">📊 考核看板</button>
+        </div>
+
         <div class="pos-layout">
           
           <!-- Column 1: POS Menu & Category Grid -->
-          <div class="glass-panel" style="padding: 16px; display: flex; flex-direction: column; overflow: hidden;">
+          <div id="pos-col-menu" class="glass-panel pos-col-panel active" style="padding: 16px; display: flex; flex-direction: column; overflow: hidden;">
             <div class="panel-header">
               <span class="panel-title">🍔 經典菜單點餐系統</span>
               <span style="font-size:0.8rem; color:var(--text-muted);">選擇餐點與特殊客製需求</span>
@@ -73,7 +81,7 @@
           </div>
 
           <!-- Column 2: Order Cart & Customization Summary -->
-          <div class="glass-panel cart-panel">
+          <div id="pos-col-cart" class="glass-panel cart-panel pos-col-panel">
             <div class="panel-header">
               <span class="panel-title">🛍️ 當前點餐清單 (Cart)</span>
               <button id="btn-clear-cart" class="btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;">清空</button>
@@ -95,7 +103,7 @@
           </div>
 
           <!-- Column 3: Live Kitchen Audit Dashboard & AR Target Markers -->
-          <div class="glass-panel audit-panel">
+          <div id="pos-col-audit" class="glass-panel audit-panel pos-col-panel">
             <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 8px;">
               <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
                 <span class="panel-title">📊 實習培訓 & 考核看板</span>

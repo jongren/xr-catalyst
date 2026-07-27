@@ -494,3 +494,87 @@
   border-radius: 6px;
   padding: 6px;
 }
+
+/* ==========================================================================
+   Multi-Device Responsive Breakpoints (Y700 Tablet, 1080p, Beam Pro, Mobile)
+   ========================================================================== */
+
+.pos-mobile-nav {
+  display: none;
+}
+
+.pos-mobile-tab {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition-fast);
+}
+
+.pos-mobile-tab.active {
+  background: var(--primary);
+  color: #000;
+  border-color: var(--primary);
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+/* Medium Screens (1080p Desktop, Y700 Tablet Landscape: 992px - 1280px) */
+@media (max-width: 1280px) and (min-width: 992px) {
+  .pos-layout {
+    grid-template-columns: 1fr minmax(280px, 320px) minmax(280px, 320px);
+    gap: 12px;
+    padding: 12px;
+  }
+}
+
+/* Tablet Portrait & Mobile Screens (<= 991px: Y700 Portrait, Beam Pro, Phones) */
+@media (max-width: 991px) {
+  .pos-mobile-nav {
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px 0 12px;
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+
+  .pos-layout {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 120px);
+    max-height: none;
+    overflow: visible;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .pos-col-panel {
+    display: none !important;
+  }
+
+  .pos-col-panel.active {
+    display: flex !important;
+    flex: 1;
+    min-height: 480px;
+    height: auto;
+    max-height: none;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .cart-panel {
+    min-height: calc(100vh - 140px);
+  }
+
+  .audit-panel {
+    min-height: calc(100vh - 140px);
+  }
+}

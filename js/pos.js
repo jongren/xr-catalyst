@@ -43,6 +43,22 @@ const POSController = (function() {
       });
     }
 
+    // Mobile / Tablet Sub-Tab Switching (< 991px)
+    const mobileTabs = document.querySelectorAll('.pos-mobile-tab');
+    mobileTabs.forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.preventDefault();
+        mobileTabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        const targetId = this.getAttribute('data-target');
+        document.querySelectorAll('.pos-col-panel').forEach(panel => {
+          panel.classList.remove('active');
+        });
+        const targetPanel = document.getElementById(targetId);
+        if (targetPanel) targetPanel.classList.add('active');
+      });
+    });
+
     if (window.EventBus) {
       window.EventBus.on('NETWORK_SYNC_UPDATED', function() {
         renderAuditDashboard();
@@ -138,6 +154,12 @@ const POSController = (function() {
     const cartContainer = document.getElementById('cart-items-container');
     const totalEl = document.getElementById('cart-total-price');
     const sendBtn = document.getElementById('btn-send-order');
+    const mobileCartBadge = document.getElementById('mobile-cart-badge');
+
+    if (mobileCartBadge) {
+      mobileCartBadge.textContent = currentCart.length;
+    }
+
     if (!cartContainer) return;
 
     if (currentCart.length === 0) {
