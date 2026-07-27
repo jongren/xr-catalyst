@@ -121,15 +121,15 @@ const POSController = (function() {
     }
 
     gridContainer.innerHTML = filteredItems.map(item => `
-      <div class="menu-card" data-id="${item.id}">
-        <div class="menu-card-icon">${item.icon}</div>
-        <div>
+      <div class="menu-card" data-id="${item.id}" onclick="window.POSController.addToCart('${item.id}')">
+        <div class="menu-card-body">
+          <div class="menu-card-icon">${item.icon}</div>
           <div class="menu-card-title">${item.name}</div>
-          <div class="menu-card-desc">${item.description}</div>
+          <div class="menu-card-desc" title="${item.description}">${item.description}</div>
         </div>
         <div class="menu-card-footer">
           <span class="menu-price">NT$ ${item.price}</span>
-          <button class="add-btn" onclick="window.POSController.addToCart('${item.id}')">+</button>
+          <button class="add-btn" onclick="event.stopPropagation(); window.POSController.addToCart('${item.id}')" title="加入購物車">+</button>
         </div>
       </div>
     `).join('');
