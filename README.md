@@ -40,14 +40,14 @@
 
 ### 📱 雙端專用存取網址 (Dedicated Endpoints)
 
-假設您的 Render 部署網址為 `https://your-app.onrender.com`：
+假設您的 Render 部署網址為 `https://xr-catalyst.onrender.com`：
 
 | 裝置端 (Device Target) | 專用網址 URL | 用途與說明 |
 | :--- | :--- | :--- |
-| 💻 **前台 POS / 平板電腦** | `https://your-app.onrender.com/` | 用於收銀點餐、查看實時考核看板，以及提供畫面待追蹤圖像標籤。 |
-| 🥽 **Xreal AR 眼鏡 / Beam Pro** | `https://your-app.onrender.com/?mode=hud` | **眼鏡專用模式網址**：開啟後自動隱藏 POS 介面，直接進入全螢幕透視 AR HUD 視界與相機追蹤模式。 |
+| 💻 **前台 POS / 平板電腦** | `https://xr-catalyst.onrender.com/` | 用於收銀點餐、查看實時考核看板，以及提供畫面待追蹤圖像標籤。 |
+| 🥽 **Xreal AR 眼鏡 / Beam Pro** | `https://xr-catalyst.onrender.com/?mode=hud` | **眼鏡專用模式網址**：開啟後自動隱藏 POS 介面，直接進入全螢幕透視 AR HUD 視界與相機追蹤模式。 |
 
-> 💡 **提示**：在 Beam Pro 或 Android XR 眼鏡的瀏覽器中，可以直接將 `https://your-app.onrender.com/?mode=hud` 儲存為書籤或桌面捷徑，一鍵開啟 AR 眼鏡 HUD！
+> 💡 **提示**：在 Beam Pro 或 Android XR 眼鏡的瀏覽器中，可以直接將 `https://xr-catalyst.onrender.com/?mode=hud` 儲存為書籤或桌面捷徑，一鍵開啟 AR 眼鏡 HUD！
 
 ---
 

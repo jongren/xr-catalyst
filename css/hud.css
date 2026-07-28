@@ -60,7 +60,7 @@
   position: absolute;
   top: clamp(10px, 3vh, 30px);
   right: clamp(10px, 3vw, 30px);
-  width: clamp(280px, 92vw, 420px);
+  width: clamp(280px, 92vw, 400px);
   max-height: calc(100vh - 40px);
   z-index: 10;
   background: rgba(10, 16, 30, 0.85);
@@ -68,14 +68,15 @@
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(0, 229, 255, 0.4);
   border-radius: var(--radius-lg);
-  padding: clamp(12px, 3vw, 20px);
+  padding: clamp(10px, 3vw, 16px);
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 229, 255, 0.25);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   pointer-events: auto;
   transition: all 0.3s cubic-bezier(0.1, 0.8, 0.3, 1);
   overflow-y: auto;
+  zoom: 0.75; /* Scale down for Xreal Air 2 Ultra FOV */
 }
 
 /* Mode Switch Selector Pill */
