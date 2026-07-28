@@ -47,7 +47,8 @@ const AREngine = (function() {
       reticle.y = (e.clientY - rect.top) / (rect.height || 1);
     });
 
-    hudContainer.addEventListener('mousedown', function() {
+    hudContainer.addEventListener('mousedown', function(e) {
+      if (e.target.closest('.hud-head-panel') || e.target.closest('.hud-toast-warning')) return;
       reticle.isPinched = true;
       triggerPinchAction();
     });
