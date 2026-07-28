@@ -90,6 +90,8 @@ function initializeApp() {
 
       if (window.AREngine) {
         window.AREngine.start();
+        // Force canvas to resize after panel becomes visible
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
       }
     });
 
