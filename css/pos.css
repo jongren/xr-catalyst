@@ -551,8 +551,8 @@
   box-shadow: 0 0 12px var(--primary-glow);
 }
 
-/* Medium Screens (1080p Desktop, Y700 Tablet Landscape: 992px - 1440px) */
-@media (max-width: 1440px) and (min-width: 992px) {
+/* Medium Screens (1080p Desktop, Y700 Tablet: 769px - 1440px) */
+@media (max-width: 1440px) and (min-width: 769px) {
   .pos-layout {
     grid-template-columns: 1fr minmax(260px, 300px) minmax(260px, 300px);
     gap: 12px;
@@ -560,8 +560,8 @@
   }
 }
 
-/* Tablet Portrait & Mobile Screens (<= 991px: Y700 Portrait, Beam Pro, Phones) */
-@media (max-width: 991px) {
+/* Phones & Small Tablets (<= 768px) */
+@media (max-width: 768px) {
   .pos-mobile-nav {
     display: flex;
     gap: 8px;
